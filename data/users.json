@@ -1,0 +1,19 @@
+{
+  "users": {
+    "ernest": {
+      "name": "Ernest",
+      "email": "ernest@example.com",
+      "profilePictureURL": "https://app.cord.com/static/Anon-avatar-0.png"
+    },
+    "sylvia": {
+      "name": "Sylvia",
+      "email": "sylvia@example.com",
+      "profilePictureURL": "https://app.cord.com/static/Anon-avatar-1.png"
+    },
+    "oscar": {
+      "name": "Oscar",
+      "email": "oscar@example.com",
+      "profilePictureURL": "https://app.cord.com/static/Anon-avatar-2.png"
+    }
+  }
+}
