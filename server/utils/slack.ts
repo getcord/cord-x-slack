@@ -3,13 +3,12 @@ import type {
   MessageVariables,
   NotificationReplyAction,
   ThreadVariables,
-  WebhookPayloads,
 } from '@cord-sdk/api-types';
+import { ChatPostMessageArguments } from '@slack/web-api';
+import { UserData, WebhookPayloads } from '@cord-sdk/types';
 import { getNameFromCordExtID } from './user';
 import { loadSlackData } from './files';
 import { processJSONResponse } from './server';
-import { ChatPostMessageArguments } from '@slack/web-api';
-import { UserData } from '@cord-sdk/types';
 
 export async function postMessageToSlack(body: ChatPostMessageArguments) {
   const { slackBotToken } = loadSlackData();
@@ -66,17 +65,15 @@ export function prepareFirstMessageToShareToSlack({
 
 export function prepareSubsequentMessageToShareToSlack({
   message,
-  messageEvent,
   slackChannel,
   slackThreadTimestamp,
 }: {
-  message?: MessageVariables;
-  messageEvent?: WebhookPayloads['thread-message-added'];
+  message: MessageVariables;
   slackChannel: string;
   slackThreadTimestamp: string;
 }): ChatPostMessageArguments {
-  const authorID = message?.authorID || messageEvent?.author.id;
-  const plaintext = message?.plaintext || messageEvent?.plaintext;
+  const authorID = message.authorID;
+  const plaintext = message.plaintext;
 
   if (!authorID || !plaintext) {
     throw new Error('Missing message author or plaintext');

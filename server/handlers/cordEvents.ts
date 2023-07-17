@@ -1,7 +1,7 @@
 import { createHmac } from 'crypto';
 import type { Request } from 'express';
 import jsonStableStringify = require('fast-json-stable-stringify');
-import type { WebhookPayloads } from '@cord-sdk/api-types';
+import type { WebhookPayloads } from '@cord-sdk/types';
 import { loadSharedThreads, loadSlackData } from '../utils/files';
 import { getSlackUserIdFromCordExternalUserID } from '../utils/user';
 import {
@@ -39,15 +39,14 @@ export async function processIncomingCordEvent(body: any) {
 
   const eventHandler = eventHandlers[body.type as keyof typeof eventHandlers];
 
-  await eventHandler(body);
+  await eventHandler(body.event);
 }
 
 const eventHandlers = {
   async 'thread-message-added'(event: WebhookPayloads['thread-message-added']) {
     const {
       usersToNotify,
-      thread: { id: threadID },
-      metadata,
+      thread: { id: threadID, metadata },
     } = event;
 
     const { slackBotToken } = loadSlackData();
@@ -74,7 +73,7 @@ const eventHandlers = {
       const { slackChannel, timestamp } = sharedThreads.cordToSlack[threadID];
 
       const body = prepareSubsequentMessageToShareToSlack({
-        messageEvent: event,
+        message: { authorID: event.message.author.id, ...event.message },
         slackChannel: slackChannel,
         slackThreadTimestamp: timestamp,
       });
