@@ -90,6 +90,7 @@ function App() {
             }}
           >
             <button
+              className="button"
               style={{
                 display: slackChannels ? 'none' : 'flex',
                 alignItems: 'center',
@@ -104,6 +105,7 @@ function App() {
               <span>Add Slack integration</span>
             </button>
             <button
+              className="button"
               style={{
                 display: slackChannels ? 'inline' : 'none',
                 backgroundColor: '#eeeeee',
@@ -159,11 +161,17 @@ function App() {
             <Thread
               threadId={threadID}
               onRender={() => setReady(true)}
-              style={{ width: '400px', maxHeight: '600px', margin: 'auto' }}
+              style={{
+                width: '400px',
+                maxHeight: '600px',
+                margin: 'auto',
+                textAlign: 'left',
+              }}
             />
             {slackChannels && (
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <button
+                  className="button"
                   style={{
                     display: 'flex',
                     margin: '16px',
@@ -239,10 +247,14 @@ function App() {
                       justifyContent: 'space-around',
                     }}
                   >
-                    <button onClick={() => setShowSlackConnectModal(false)}>
+                    <button
+                      className="button"
+                      onClick={() => setShowSlackConnectModal(false)}
+                    >
                       Cancel
                     </button>
                     <button
+                      className="button"
                       onClick={() => {
                         location.href = `https://slack.com/oauth/v2/authorize?client_id=${slackClientID}&scope=channels:history,channels:read,im:read,chat:write,im:write,users:read,users:read.email,channels:join&user_scope=&state=${userID}`;
                         setShowSlackConnectModal(false);
@@ -279,10 +291,14 @@ function App() {
                       justifyContent: 'space-around',
                     }}
                   >
-                    <button onClick={() => setShowSlackShareModal(false)}>
+                    <button
+                      className="button"
+                      onClick={() => setShowSlackShareModal(false)}
+                    >
                       Cancel
                     </button>
                     <button
+                      className="button"
                       onClick={() => {
                         shareThreadToSlack(threadID);
                         setShowSlackShareModal(false);
