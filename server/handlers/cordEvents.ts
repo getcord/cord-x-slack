@@ -23,7 +23,13 @@ export function verifyCordEvent(req: Request) {
   const cordTimestamp = req.header('X-Cord-Timestamp');
   const cordSignature = req.header('X-Cord-Signature');
 
+  // Ensure that the body is stringified consistently with how javascript's
+  // JSON.stringify() works.  Python's json.dumps() has slight formatting
+  // differences.  Ensure too that the object you are using has not had extra
+  // properties like trace ids added by your server.  Consider using the raw
+  // request payload, e.g. in Flask by using req.get_data().
   const bodyString = jsonStableStringify(req.body);
+
   const verifyStr = cordTimestamp + ':' + bodyString;
   const incomingSignature = createHmac('sha256', CORD_SIGNING_SECRET)
     .update(verifyStr)
